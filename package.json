@@ -9,6 +9,13 @@
     "web": "expo start --web",
     "lint": "eslint ."
   },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,js}": "prettier --write"
+  },
   "dependencies": {
     "expo": "~52.0.20",
     "expo-status-bar": "~2.0.0",
