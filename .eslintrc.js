@@ -1,6 +1,6 @@
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
-  extends: ["expo", "plugin:unicorn/recommended"],
+  extends: ["expo", "plugin:unicorn/recommended", "prettier"],
   ignorePatterns: ["/dist/*"],
   plugins: ["unused-imports"],
   rules: {
