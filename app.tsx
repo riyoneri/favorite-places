@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import ScreenWrapper from "./components/ui/screen-wrapper";
 import { Colors } from "./constants/style";
 import AddPlaceScreen from "./screens/add-place";
 import MapScreen from "./screens/map";
@@ -17,7 +18,12 @@ export default function App() {
         screenOptions={{
           headerStyle: { backgroundColor: Colors.primary500 },
           contentStyle: { backgroundColor: Colors.gray700 },
+          headerTintColor: "black",
+          headerTitleAlign: "center",
         }}
+        screenLayout={({ children }) => (
+          <ScreenWrapper>{children}</ScreenWrapper>
+        )}
       >
         <Stack.Screen name="Places" component={PlacesScreen} />
         <Stack.Screen name="PlacesDetail" component={PlaceDetailScreen} />
