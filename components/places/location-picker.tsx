@@ -1,23 +1,33 @@
-import { useNavigation } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import {
   getCurrentPositionAsync,
   PermissionStatus,
   useForegroundPermissions,
 } from "expo-location";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
+import { Location } from "../../api";
 import { Colors } from "../../constants/style";
+import { RootStackScreenRouteProperties } from "../../types/navigation";
 import { getMapPreview } from "../../util/location";
 import OutlinedButton from "../ui/outlined-button";
 
 export default function LocationPicker() {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
-  const [pickedLocation, setPickedLocation] = useState<
-    { lat: number; lng: number } | undefined
-  >();
+  const router = useRoute<RootStackScreenRouteProperties<"AddPlace">>();
+  const [pickedLocation, setPickedLocation] = useState<Location | undefined>();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
+
+  useLayoutEffect(() => {
+    if (router.params) setPickedLocation(router.params.location);
+  }, [router.params, isFocused]);
 
   async function getLocationHandler() {
     const hasPermission = await verifyPermissions();
@@ -27,8 +37,8 @@ export default function LocationPicker() {
     const location = await getCurrentPositionAsync();
 
     setPickedLocation({
-      lat: location.coords.latitude,
-      lng: location.coords.longitude,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
     });
   }
 
@@ -64,7 +74,10 @@ export default function LocationPicker() {
           <Image
             style={styles.image}
             source={{
-              uri: getMapPreview(pickedLocation?.lng, pickedLocation?.lat),
+              uri: getMapPreview(
+                pickedLocation.longitude,
+                pickedLocation.latitude,
+              ),
             }}
           />
         ) : (
