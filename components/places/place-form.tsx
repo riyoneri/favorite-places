@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { placeSchema, PlaceSchemaType } from "../../validation/place-schema";
 import Input from "../input";
 import ImagePicker from "./image-picker";
+import LocationPicker from "./location-picker";
 
 export default function PlaceForm() {
   const { control } = useForm<PlaceSchemaType>({
@@ -15,6 +16,7 @@ export default function PlaceForm() {
     <ScrollView style={styles.form}>
       <Input control={control} name="name" inputConfig={{}} label="Title" />
       <ImagePicker />
+      <LocationPicker />
     </ScrollView>
   );
 }

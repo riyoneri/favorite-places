@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: Colors.primary500,
+    flex: 1,
   },
   pressed: {
     opacity: 0.7,
