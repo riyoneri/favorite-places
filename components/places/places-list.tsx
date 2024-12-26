@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { Colors } from "../../constants/style";
@@ -9,6 +10,7 @@ interface PlacesListProperties {
 }
 
 export default function PlacesList({ places }: PlacesListProperties) {
+  const navigation = useNavigation();
   if (places.length === 0) {
     return (
       <View style={styles.fallBackContainer}>
@@ -24,7 +26,12 @@ export default function PlacesList({ places }: PlacesListProperties) {
       contentContainerStyle={styles.list}
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
-        <PlaceItem place={itemData.item} onPress={() => {}} />
+        <PlaceItem
+          place={itemData.item}
+          onPress={() =>
+            navigation.navigate("PlacesDetail", { placeId: itemData.item.id })
+          }
+        />
       )}
     />
   );
