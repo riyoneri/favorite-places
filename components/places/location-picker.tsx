@@ -8,16 +8,19 @@ import {
   PermissionStatus,
   useForegroundPermissions,
 } from "expo-location";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
 import { Location } from "../../api";
 import { Colors } from "../../constants/style";
 import { RootStackScreenRouteProperties } from "../../types/navigation";
-import { getMapPreview } from "../../util/location";
+import { getAddress, getMapPreview } from "../../util/location";
+import { PlaceSchemaType } from "../../validation/place-schema";
 import OutlinedButton from "../ui/outlined-button";
 
 export default function LocationPicker() {
+  const { setValue } = useFormContext<PlaceSchemaType>();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
   const router = useRoute<RootStackScreenRouteProperties<"AddPlace">>();
@@ -26,8 +29,25 @@ export default function LocationPicker() {
     useForegroundPermissions();
 
   useLayoutEffect(() => {
-    if (router.params) setPickedLocation(router.params.location);
+    if (router.params) {
+      setPickedLocation(router.params.location);
+    }
   }, [router.params, isFocused]);
+
+  useEffect(() => {
+    async function handleLocation() {
+      if (pickedLocation) {
+        const address = await getAddress(
+          pickedLocation.longitude,
+          pickedLocation.latitude,
+        );
+        setValue("location", pickedLocation);
+        setValue("address", address);
+      }
+    }
+
+    handleLocation();
+  }, [pickedLocation, setValue]);
 
   async function getLocationHandler() {
     const hasPermission = await verifyPermissions();

@@ -4,12 +4,15 @@ import {
   useCameraPermissions,
 } from "expo-image-picker";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
 import { Colors } from "../../constants/style";
+import { PlaceSchemaType } from "../../validation/place-schema";
 import OutlinedButton from "../ui/outlined-button";
 
 export default function ImagePicker() {
+  const { setValue } = useFormContext<PlaceSchemaType>();
   const [pickedImage, setPickedImage] = useState("");
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
@@ -47,6 +50,7 @@ export default function ImagePicker() {
     if (image.canceled) return;
 
     setPickedImage(image.assets[0].uri);
+    setValue("imageUri", image.assets[0].uri);
   }
 
   return (

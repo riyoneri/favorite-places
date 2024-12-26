@@ -13,7 +13,7 @@ interface InputProperties<T extends FieldValues> {
   label: string;
   name: Path<T>;
   control: Control<T>;
-  inputConfig: TextInputProps;
+  inputConfig?: TextInputProps;
 }
 
 export default function Input<T extends FieldValues>({
