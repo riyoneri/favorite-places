@@ -1,5 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
+import { DatabasePlace } from "../api";
 import { Place } from "../models/place";
 
 const database = SQLite.openDatabaseSync("places.db");
@@ -27,4 +28,18 @@ export function insertPlace(place: Omit<Place, "id">) {
       place.location.longitude,
     ],
   );
+}
+
+export async function fetchPlaces(): Promise<Place[]> {
+  const places = await database.getAllAsync<DatabasePlace>(
+    "SELECT * FROM places",
+  );
+
+  return places.map((place) => ({
+    id: String(place.id),
+    address: place.address,
+    imageUri: place.imageUri,
+    title: place.title,
+    location: { latitude: place.lat, longitude: place.lng },
+  }));
 }
