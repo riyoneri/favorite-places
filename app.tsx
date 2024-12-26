@@ -64,7 +64,11 @@ export default function App() {
               ),
             })}
           />
-          <Stack.Screen name="PlacesDetail" component={PlaceDetailScreen} />
+          <Stack.Screen
+            name="PlacesDetail"
+            options={{ title: "Loading place..." }}
+            component={PlaceDetailScreen}
+          />
           <Stack.Screen
             name="AddPlace"
             component={AddPlaceScreen}
