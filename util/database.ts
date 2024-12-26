@@ -1,5 +1,7 @@
 import * as SQLite from "expo-sqlite";
 
+import { Place } from "../models/place";
+
 const database = SQLite.openDatabaseSync("places.db");
 
 export function init() {
@@ -14,4 +16,15 @@ export function init() {
         `);
 }
 
-export function insertPlace() {}
+export function insertPlace(place: Place) {
+  return database.runAsync(
+    "INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)",
+    [
+      place.title,
+      place.imageUri,
+      place.address,
+      place.location.latitude,
+      place.location.longitude,
+    ],
+  );
+}
