@@ -21,6 +21,7 @@ export default function PlacesList({ places }: PlacesListProperties) {
   return (
     <FlatList
       data={places}
+      contentContainerStyle={styles.list}
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
         <PlaceItem place={itemData.item} onPress={() => {}} />
@@ -30,6 +31,9 @@ export default function PlacesList({ places }: PlacesListProperties) {
 }
 
 const styles = StyleSheet.create({
+  list: {
+    gap: 15,
+  },
   fallBackContainer: {
     flex: 1,
     justifyContent: "center",
