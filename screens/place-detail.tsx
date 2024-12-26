@@ -7,8 +7,6 @@ import { Place } from "../models/place";
 import { RootStackScreenProperties } from "../types/navigation";
 import { fetchPlaceDetails } from "../util/database";
 
-function showOnMapHandler() {}
-
 export default function PlaceDetailScreen({
   navigation,
   route,
@@ -28,6 +26,17 @@ export default function PlaceDetailScreen({
 
     fetchSinglePlace();
   }, [navigation, selectedPlaceId]);
+
+  function showOnMapHandler() {
+    if (!fetchedPlace) return;
+
+    navigation.navigate("Map", {
+      location: {
+        latitude: fetchedPlace.location.latitude,
+        longitude: fetchedPlace.location.longitude,
+      },
+    });
+  }
 
   if (!fetchedPlace)
     return (
