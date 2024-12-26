@@ -43,3 +43,16 @@ export async function fetchPlaces(): Promise<Place[]> {
     location: { latitude: place.lat, longitude: place.lng },
   }));
 }
+
+export async function fetchPlaceDetails(
+  placeId: string,
+): Promise<Place | undefined> {
+  const place = await database.getFirstAsync<DatabasePlace>(
+    "SELECT * FROM places WHERE id = ?",
+    placeId,
+  );
+
+  if (!place) return;
+
+  return { ...place, location: { latitude: place.lat, longitude: place.lng } };
+}
