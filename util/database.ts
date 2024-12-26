@@ -16,7 +16,7 @@ export function init() {
         `);
 }
 
-export function insertPlace(place: Place) {
+export function insertPlace(place: Omit<Place, "id">) {
   return database.runAsync(
     "INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)",
     [
